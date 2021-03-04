@@ -1,0 +1,85 @@
+<html>
+<head>
+  <meta name="description" content="DevLab: Configure a popup">
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+  <title>Provinces of Canada: Pop-up Learning</title>
+  <style>
+    html,
+    body,
+    #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+	h2 {
+	background-color: #bdbdbd;
+	text-align: center;
+	height:	50px;
+	font-size: xx-large;
+	padding-top: 10px;
+	color: #252525;
+	margin-bottom: 0px;
+	}
+	p {
+	background-color: #bdbdbd;
+	color: white;
+	margin: 0px;
+	height: 30px;
+	}
+  </style>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.18/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.18/"></script>
+  <h2>Provinces of Canada</h2>
+  <p>This map is intended for you to name the provinces of Canada, then click a province to enable the pop-up window to see if you were correct. Give it a try! <i>Ideally the map would not have labels</i></p>
+</head>
+
+ <script>
+
+  require([
+      "esri/config",
+      "esri/Map",
+      "esri/views/MapView",
+
+      "esri/layers/FeatureLayer"
+    ],
+	
+	    function(esriConfig,Map, MapView, FeatureLayer){
+
+     esriConfig.apiKey = "AAPK8f1a6c7e604541059fb9bfa44b3b4e4dZJ1DZPWPzZtRHiJ7zDl_TKPIHi3GwqcRNUHMMSyjyAjUc2LKlLVea_wJslNSdJ1i";
+
+      const map = new Map({
+        basemap: "gray" //Basemap layer service
+      });
+
+      const view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center: [-94.69434905931266, 60.77595530869744], //Longitude, latitude
+        zoom: 3
+      });
+
+      // Define a pop-up for Trailheads
+      const popupprovinces = {
+        "title": "Canada",
+        "content": "<b>Province:</b> {PRENAME}<br>"
+      }
+	  
+	  const provinces = new FeatureLayer({
+        url: "https://luna.flemingcollege.ca/arcgis/rest/services/Geom99lab2/DavidpCanada/MapServer/0",
+		
+        popupTemplate: popupprovinces
+      });
+
+      map.add(provinces);
+	  
+	  });
+  </script>
+
+</head>
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>
